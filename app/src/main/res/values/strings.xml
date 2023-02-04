@@ -5,4 +5,7 @@
     <string name="timerOff">Таймер выключен</string>
     <string name="timerOn">Таймер включен</string>
     <string name="language">Language</string>
+    <string name="sharedPref">sharedPref</string>
+    <string name="score">scoreShared</string>
+    <string name="timerShared">timerShared</string>
 </resources>
