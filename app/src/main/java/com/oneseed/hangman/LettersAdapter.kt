@@ -3,6 +3,7 @@ package com.oneseed.hangman
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.RecyclerView
 import com.oneseed.hangman.databinding.RussianAbcButtonBinding
 
@@ -14,6 +15,12 @@ class LettersAdapter : RecyclerView.Adapter<LettersAdapter.LettersHolder>() {
 
         fun bind(letterItem: LettersItem) {
             binding.tvTitle.text = letterItem.letter
+
+            binding.tvTitle.setOnClickListener{
+                binding.tvTitle.visibility = View.INVISIBLE
+                binding.tvTitle.text = ""
+                binding.tvTitle.isEnabled = false
+            }
 
         }
 
