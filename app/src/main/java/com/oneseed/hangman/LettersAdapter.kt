@@ -3,24 +3,36 @@ package com.oneseed.hangman
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.RecyclerView
 import com.oneseed.hangman.databinding.RussianAbcButtonBinding
 
-class LettersAdapter : RecyclerView.Adapter<LettersAdapter.LettersHolder>() {
-    var lettersList = ArrayList<LettersItem>()
+class LettersAdapter(
+    private val lettersList: ArrayList<LettersItem>,
+    private val listener: RecyclerViewEvent
+) :
+    RecyclerView.Adapter<LettersAdapter.LettersHolder>() {
 
-    class LettersHolder(item: View) : RecyclerView.ViewHolder(item) {
+    class LettersHolder(item: View, listener: RecyclerViewEvent) : RecyclerView.ViewHolder(item), View.OnClickListener {
         private val binding = RussianAbcButtonBinding.bind(item)
+        private val localListener = listener
 
         fun bind(letterItem: LettersItem) {
             binding.tvTitle.text = letterItem.letter
 
-            binding.tvTitle.setOnClickListener{
-                binding.tvTitle.visibility = View.INVISIBLE
-                binding.tvTitle.text = ""
-                binding.tvTitle.isEnabled = false
-            }
+
+
+
+        }
+
+        init {
+            binding.tvTitle.setOnClickListener(this)
+
+        }
+
+        override fun onClick(p0: View?) {
+            val position = adapterPosition
+            localListener.onItemClicked(position)
+            binding.tvTitle.visibility = View.INVISIBLE
 
         }
 
@@ -34,7 +46,7 @@ class LettersAdapter : RecyclerView.Adapter<LettersAdapter.LettersHolder>() {
         val view =
             LayoutInflater.from(parent.context).inflate(R.layout.russian_abc_button, parent, false)
 
-        return LettersHolder(view)
+        return LettersHolder(view, listener)
     }
 
     override fun onBindViewHolder(holder: LettersHolder, position: Int) {
@@ -44,6 +56,12 @@ class LettersAdapter : RecyclerView.Adapter<LettersAdapter.LettersHolder>() {
     override fun getItemCount(): Int {
         return lettersList.size
     }
+
+    interface RecyclerViewEvent {
+        fun onItemClicked(position: Int)
+    }
+
+
 }
 
 data class LettersItem(
