@@ -41,7 +41,9 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/abcButtonsRecycler"
+            android:layout_margin="55dp"
             android:layout_weight="1"
+            scrollenabled="false"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             tools:listitem="@layout/russian_abc_button"/>
