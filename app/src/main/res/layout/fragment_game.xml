@@ -17,6 +17,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <TextView
+            android:id="@+id/timer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center_vertical"
+            android:paddingTop="20dp"
+            android:textSize="20sp"
+            android:textColor="@color/white" />
+
         <ImageView
             android:id="@+id/imageView"
             android:paddingTop="100dp"
