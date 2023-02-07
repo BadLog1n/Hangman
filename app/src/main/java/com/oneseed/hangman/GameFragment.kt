@@ -47,30 +47,33 @@ class GameFragment : Fragment(), LettersAdapter.RecyclerViewEvent {
         inputString = (getString(R.string.words)).split(" ").random().uppercase()
         binding.inputCode.lengthOfCode = inputString.length
 
-            imageRc.layoutManager = GridLayoutManager(context, 5)
+        imageRc.layoutManager = GridLayoutManager(context, 5)
 
         val localArray = CharArray(inputString.length) { ' ' }
         arrayOfAnswers = localArray
 
-        lifecycleScope.launch {
-            withContext(Dispatchers.IO) {
-                while (timerCount > 0) {
-                    binding.timer.text = timerCount.toString()
-                    Thread.sleep(1000)
-                    timerCount--
-                    if (timerCount == 0) {
+        if (requireArguments().getBoolean("timer")) {
+            binding.timer.visibility = View.VISIBLE
+            lifecycleScope.launch {
+                withContext(Dispatchers.IO) {
+                    while (timerCount > 0) {
                         binding.timer.text = timerCount.toString()
-                        withContext(Dispatchers.Main) {
-                            AlertDialog.Builder(context)
-                                .setTitle("Вы проиграли!")
-                                .setMessage("Время вышло!\nПравильный ответ: ${inputString.lowercase()}.")
-                                .setCancelable(false)
-                                .setPositiveButton("OK") { _, _ ->
-                                    findNavController().navigateUp()
-                                }
-                                .show()
+                        Thread.sleep(1000)
+                        timerCount--
+                        if (timerCount == 0) {
+                            binding.timer.text = timerCount.toString()
+                            withContext(Dispatchers.Main) {
+                                AlertDialog.Builder(context)
+                                    .setTitle("Вы проиграли!")
+                                    .setMessage("Время вышло!\nПравильный ответ: ${inputString.lowercase()}.")
+                                    .setCancelable(false)
+                                    .setPositiveButton("OK") { _, _ ->
+                                        findNavController().navigateUp()
+                                    }
+                                    .show()
+                            }
+                            timerCount = -1
                         }
-                        timerCount = -1
                     }
                 }
             }

@@ -27,7 +27,9 @@ class LaunchFragment: Fragment() {
         )
         binding.scoreText.text = sharedPref?.getInt(getString(R.string.score), 0).toString()
         binding.playButton.setOnClickListener {
-            view.findNavController().navigate(R.id.gameFragment)
+            val bundle = Bundle()
+            bundle.putBoolean("timer", binding.timerSwitch.isChecked)
+            view.findNavController().navigate(R.id.gameFragment, bundle)
         }
 
         binding.timerSwitch.setOnCheckedChangeListener { _, isChecked ->
