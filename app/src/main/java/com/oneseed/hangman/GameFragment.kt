@@ -14,6 +14,7 @@ class GameFragment : Fragment(), LettersAdapter.RecyclerViewEvent {
     private val lettersList = ArrayList<LettersItem>()
     private val rcAdapter = LettersAdapter(lettersList, this)
     private val inputString = "тест".uppercase()
+    private var trying = 1
     private lateinit var arrayOfAnswers: CharArray
     private lateinit var binding: FragmentGameBinding
     override fun onCreateView(
@@ -46,11 +47,20 @@ class GameFragment : Fragment(), LettersAdapter.RecyclerViewEvent {
 
 
     override fun onItemClicked(letter: Char) {
-        for (i in inputString.indices) {
-            if (inputString[i] == letter) {
-                arrayOfAnswers[i] = letter
+        if (inputString.contains(letter)) {
+            for (i in inputString.indices) {
+                if (inputString[i] == letter) {
+                    arrayOfAnswers[i] = letter
+                }
             }
         }
+        else {
+            val image = "@drawable/hangman_$trying"
+            val resID = resources.getIdentifier(image, "drawable", activity?.packageName)
+            binding.imageView.setImageResource(resID)
+            trying++
+        }
+
         binding.inputCode.code = String(arrayOfAnswers)
     }
 
