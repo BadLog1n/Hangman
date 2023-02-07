@@ -119,7 +119,7 @@ class GameFragment : Fragment(), LettersAdapter.RecyclerViewEvent {
         if (trying == 6) {
             AlertDialog.Builder(context)
                 .setTitle("Вы проиграли!")
-                .setMessage("Вы не угадали слово! \n Правильный ответ: $inputString")
+                .setMessage("Вы не угадали слово!\nПравильный ответ: $inputString")
                 .setCancelable(false)
                 .setPositiveButton("OK") { _, _ ->
                     findNavController().navigateUp()

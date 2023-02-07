@@ -29,7 +29,7 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:paddingTop="100dp"
+            android:paddingTop="50dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/hangman_0" />
