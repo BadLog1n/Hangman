@@ -49,7 +49,7 @@
         android:pathData="M191.96,32.28h18v180h-18z"
         android:strokeLineJoin="bevel"
         android:strokeWidth="5"
-        android:fillColor="#fff"
+        android:fillColor="#000"
         android:strokeColor="#fff"
         android:fillType="nonZero"
         android:strokeLineCap="round"/>
