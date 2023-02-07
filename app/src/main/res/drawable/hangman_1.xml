@@ -9,7 +9,7 @@
         android:pathData="m121.02,75.74a13,13 0,0 1,13.23 -12.74,13 13,0 0,1 12.77,13.2 13,13 0,0 1,-13.18 12.79,13 13,0 0,1 -12.82,-13.16"
         android:strokeLineJoin="bevel"
         android:strokeWidth="3.99999976"
-        android:fillColor="#fff"
+        android:fillColor="#F44336"
         android:strokeColor="#F44336"
         android:fillType="nonZero"
         android:strokeLineCap="round"/>
