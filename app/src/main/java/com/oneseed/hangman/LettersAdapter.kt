@@ -30,9 +30,9 @@ class LettersAdapter(
         }
 
         override fun onClick(p0: View?) {
-            val position = adapterPosition
-            localListener.onItemClicked(position)
-            binding.tvTitle.visibility = View.INVISIBLE
+            val letter = binding.tvTitle
+            localListener.onItemClicked(letter.text.toString()[0])
+            letter.visibility = View.INVISIBLE
 
         }
 
@@ -58,7 +58,7 @@ class LettersAdapter(
     }
 
     interface RecyclerViewEvent {
-        fun onItemClicked(position: Int)
+        fun onItemClicked(letter: Char)
     }
 
 
