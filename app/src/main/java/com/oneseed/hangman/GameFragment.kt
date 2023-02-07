@@ -16,7 +16,7 @@ class GameFragment : Fragment(), LettersAdapter.RecyclerViewEvent {
     private val lettersList = ArrayList<LettersItem>()
     private val rcAdapter = LettersAdapter(lettersList, this)
     private val inputString = "тест".uppercase()
-    private var trying = 1
+    private var trying = 0
     private lateinit var arrayOfAnswers: CharArray
     private lateinit var binding: FragmentGameBinding
     override fun onCreateView(
@@ -69,10 +69,20 @@ class GameFragment : Fragment(), LettersAdapter.RecyclerViewEvent {
             }
         }
         else {
+            trying++
+            if (trying == 6) {
+                AlertDialog.Builder(context)
+                    .setTitle("Вы проиграли!")
+                    .setMessage("Вы не угадали слово!")
+                    .setCancelable(false)
+                    .setPositiveButton("OK") { _, _ ->
+                        findNavController().navigateUp()
+                    }
+                    .show()
+            }
             val image = "@drawable/hangman_$trying"
             val resID = resources.getIdentifier(image, "drawable", activity?.packageName)
             binding.imageView.setImageResource(resID)
-            trying++
         }
 
     }
