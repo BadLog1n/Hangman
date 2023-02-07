@@ -117,7 +117,7 @@ class GameFragment : Fragment(), LettersAdapter.RecyclerViewEvent {
                 .setPositiveButton("OK") { _, _ ->
                     findNavController().navigateUp()
                 }.show()
-            trying = if (trying == 0) 1 else trying
+            trying++
             sharedPref.edit().putInt(getString(R.string.scoreShared), score / trying).apply()
 
 
