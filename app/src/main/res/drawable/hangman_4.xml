@@ -10,7 +10,7 @@
         android:strokeLineJoin="bevel"
         android:strokeWidth="3.99999976"
         android:fillColor="#ffffff"
-        android:strokeColor="#fff"
+        android:strokeColor="#000"
         android:fillType="nonZero"
         android:strokeLineCap="round"/>
     <path
@@ -41,15 +41,15 @@
         android:pathData="M127.96,32.21h10v30h-10z"
         android:strokeLineJoin="bevel"
         android:strokeWidth="5"
-        android:fillColor="#000"
-        android:strokeColor="#fff"
+        android:fillColor="#fff"
+        android:strokeColor="#000"
         android:fillType="nonZero"
         android:strokeLineCap="round"/>
     <path
         android:pathData="M191.96,32.28h18v180h-18z"
         android:strokeLineJoin="bevel"
         android:strokeWidth="5"
-        android:fillColor="#000"
+        android:fillColor="#fff"
         android:strokeColor="#fff"
         android:fillType="nonZero"
         android:strokeLineCap="round"/>

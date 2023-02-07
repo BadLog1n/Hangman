@@ -4,13 +4,15 @@
     android:viewportWidth="256"
     android:viewportHeight="256">
     <!--F44336 red color-->
+
+
     <path
         android:name="123"
         android:pathData="m121.02,75.74a13,13 0,0 1,13.23 -12.74,13 13,0 0,1 12.77,13.2 13,13 0,0 1,-13.18 12.79,13 13,0 0,1 -12.82,-13.16"
         android:strokeLineJoin="bevel"
         android:strokeWidth="3.99999976"
         android:fillColor="#F44336"
-        android:strokeColor="#F44336"
+        android:strokeColor="#000"
         android:fillType="nonZero"
         android:strokeLineCap="round"/>
 
@@ -18,8 +20,8 @@
         android:pathData="M127.96,32.21h10v30h-10z"
         android:strokeLineJoin="bevel"
         android:strokeWidth="5"
-        android:fillColor="#000"
-        android:strokeColor="#fff"
+        android:fillColor="#fff"
+        android:strokeColor="#000"
         android:fillType="nonZero"
         android:strokeLineCap="round"/>
     <path
