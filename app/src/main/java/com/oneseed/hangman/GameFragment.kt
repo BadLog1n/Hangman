@@ -2,6 +2,8 @@ package com.oneseed.hangman
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -23,6 +25,8 @@ class GameFragment : Fragment(), LettersAdapter.RecyclerViewEvent {
     private lateinit var inputString: String
     private var trying = 0
     private var timerCount = 30
+    private lateinit var sharedPref: SharedPreferences
+    private var score = 1000
     private lateinit var arrayOfAnswers: CharArray
     private lateinit var binding: FragmentGameBinding
     override fun onCreateView(
@@ -34,6 +38,10 @@ class GameFragment : Fragment(), LettersAdapter.RecyclerViewEvent {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        sharedPref = activity?.getSharedPreferences(
+            getString(R.string.sharedPref), Context.MODE_PRIVATE
+        )!!
+
         binding.inputCode.isEnabled = false
         val imageRc: RecyclerView = view.findViewById(R.id.abcButtonsRecycler)
         imageRc.adapter = rcAdapter
@@ -53,6 +61,7 @@ class GameFragment : Fragment(), LettersAdapter.RecyclerViewEvent {
         arrayOfAnswers = localArray
 
         if (requireArguments().getBoolean("timer")) {
+            score = 3000
             binding.timer.visibility = View.VISIBLE
             lifecycleScope.launch {
                 withContext(Dispatchers.IO) {
@@ -63,14 +72,14 @@ class GameFragment : Fragment(), LettersAdapter.RecyclerViewEvent {
                         if (timerCount == 0) {
                             binding.timer.text = timerCount.toString()
                             withContext(Dispatchers.Main) {
-                                AlertDialog.Builder(context)
-                                    .setTitle("Вы проиграли!")
+                                AlertDialog.Builder(context).setTitle("Вы проиграли!")
                                     .setMessage("Время вышло!\nПравильный ответ: ${inputString.lowercase()}.")
-                                    .setCancelable(false)
-                                    .setPositiveButton("OK") { _, _ ->
+                                    .setCancelable(false).setPositiveButton("OK") { _, _ ->
                                         findNavController().navigateUp()
-                                    }
-                                    .show()
+                                    }.show()
+                                sharedPref.edit().putInt(getString(R.string.scoreShared), 0)
+                                    .apply()
+
                             }
                             timerCount = -1
                         }
@@ -103,14 +112,15 @@ class GameFragment : Fragment(), LettersAdapter.RecyclerViewEvent {
         }
         binding.inputCode.code = String(arrayOfAnswers)
         if (String(arrayOfAnswers) == inputString) {
-            AlertDialog.Builder(context)
-                .setTitle("Поздравляем!")
-                .setMessage("Вы угадали слово ${inputString.lowercase()}!")
-                .setCancelable(false)
+            AlertDialog.Builder(context).setTitle("Поздравляем!")
+                .setMessage("Вы угадали слово ${inputString.lowercase()}!").setCancelable(false)
                 .setPositiveButton("OK") { _, _ ->
                     findNavController().navigateUp()
-                }
-                .show()
+                }.show()
+            trying = if (trying == 0) 1 else trying
+            sharedPref.edit().putInt(getString(R.string.scoreShared), score / trying).apply()
+
+
             timerCount = -1
 
         }
@@ -120,14 +130,13 @@ class GameFragment : Fragment(), LettersAdapter.RecyclerViewEvent {
     private fun isWrongAnswer() {
         trying++
         if (trying == 6) {
-            AlertDialog.Builder(context)
-                .setTitle("Вы проиграли!")
+            AlertDialog.Builder(context).setTitle("Вы проиграли!")
                 .setMessage("Вы не угадали слово!\nПравильный ответ: ${inputString.lowercase()}.")
-                .setCancelable(false)
-                .setPositiveButton("OK") { _, _ ->
+                .setCancelable(false).setPositiveButton("OK") { _, _ ->
                     findNavController().navigateUp()
-                }
-                .show()
+                }.show()
+            sharedPref.edit().putInt(getString(R.string.scoreShared), 0).apply()
+
             timerCount = -1
 
         } else {

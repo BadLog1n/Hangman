@@ -2,12 +2,13 @@
     <string name="app_name">Виселица</string>
     <string name="descPlayButton">Кнопка, чтобы начать игру</string>
     <string name="record">Рекорд:</string>
+    <string name="score">Текущий счёт:</string>
     <string name="timerOff">Таймер выключен</string>
     <string name="timerOn">Таймер включен</string>
     <string name="language">Language</string>
     <string name="sharedPref">sharedPref</string>
-    <string name="score">scoreShared</string>
-    <string name="timerShared">timerShared</string>
+    <string name="scoreShared">scoreShared</string>
+    <string name="recordShared">topScoreShared</string>
 
 
 
