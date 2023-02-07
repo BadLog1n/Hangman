@@ -63,7 +63,7 @@ class GameFragment : Fragment(), LettersAdapter.RecyclerViewEvent {
                         withContext(Dispatchers.Main) {
                             AlertDialog.Builder(context)
                                 .setTitle("Вы проиграли!")
-                                .setMessage("Время вышло!\nПравильный ответ: $inputString")
+                                .setMessage("Время вышло!\nПравильный ответ: ${inputString.lowercase()}.")
                                 .setCancelable(false)
                                 .setPositiveButton("OK") { _, _ ->
                                     findNavController().navigateUp()
@@ -102,7 +102,7 @@ class GameFragment : Fragment(), LettersAdapter.RecyclerViewEvent {
         if (String(arrayOfAnswers) == inputString) {
             AlertDialog.Builder(context)
                 .setTitle("Поздравляем!")
-                .setMessage("Вы угадали слово $inputString!")
+                .setMessage("Вы угадали слово ${inputString.lowercase()}!")
                 .setCancelable(false)
                 .setPositiveButton("OK") { _, _ ->
                     findNavController().navigateUp()
@@ -119,7 +119,7 @@ class GameFragment : Fragment(), LettersAdapter.RecyclerViewEvent {
         if (trying == 6) {
             AlertDialog.Builder(context)
                 .setTitle("Вы проиграли!")
-                .setMessage("Вы не угадали слово!\nПравильный ответ: $inputString")
+                .setMessage("Вы не угадали слово!\nПравильный ответ: ${inputString.lowercase()}.")
                 .setCancelable(false)
                 .setPositiveButton("OK") { _, _ ->
                     findNavController().navigateUp()
