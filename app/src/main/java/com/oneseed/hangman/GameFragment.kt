@@ -1,10 +1,12 @@
 package com.oneseed.hangman
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.oneseed.hangman.databinding.FragmentGameBinding
@@ -53,6 +55,18 @@ class GameFragment : Fragment(), LettersAdapter.RecyclerViewEvent {
                     arrayOfAnswers[i] = letter
                 }
             }
+            binding.inputCode.code = String(arrayOfAnswers)
+            if (String(arrayOfAnswers) == inputString) {
+                AlertDialog.Builder(context)
+                    .setTitle("Поздравляем!")
+                    .setMessage("Вы угадали слово!")
+                    .setCancelable(false)
+                    .setPositiveButton("OK") { _, _ ->
+                        findNavController().navigateUp()
+                    }
+                    .show()
+
+            }
         }
         else {
             val image = "@drawable/hangman_$trying"
@@ -61,7 +75,6 @@ class GameFragment : Fragment(), LettersAdapter.RecyclerViewEvent {
             trying++
         }
 
-        binding.inputCode.code = String(arrayOfAnswers)
     }
 
 
