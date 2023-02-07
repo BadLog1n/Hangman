@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.oneseed.hangman.databinding.FragmentGameBinding
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.channels.broadcast
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -21,7 +20,7 @@ import kotlinx.coroutines.withContext
 class GameFragment : Fragment(), LettersAdapter.RecyclerViewEvent {
     private val lettersList = ArrayList<LettersItem>()
     private val rcAdapter = LettersAdapter(lettersList, this)
-    private val inputString = "тест".uppercase()
+    private lateinit var inputString: String
     private var trying = 0
     private var timerCount = 30
     private lateinit var arrayOfAnswers: CharArray
@@ -44,7 +43,11 @@ class GameFragment : Fragment(), LettersAdapter.RecyclerViewEvent {
             )
         }
         rcAdapter.notifyItemChanged(rcAdapter.itemCount)
-        imageRc.layoutManager = GridLayoutManager(context, 5)
+
+        inputString = (getString(R.string.words)).split(" ").random().uppercase()
+        binding.inputCode.lengthOfCode = inputString.length
+
+            imageRc.layoutManager = GridLayoutManager(context, 5)
 
         val localArray = CharArray(inputString.length) { ' ' }
         arrayOfAnswers = localArray
@@ -56,10 +59,11 @@ class GameFragment : Fragment(), LettersAdapter.RecyclerViewEvent {
                     Thread.sleep(1000)
                     timerCount--
                     if (timerCount == 0) {
+                        binding.timer.text = timerCount.toString()
                         withContext(Dispatchers.Main) {
                             AlertDialog.Builder(context)
                                 .setTitle("Вы проиграли!")
-                                .setMessage("Время вышло!")
+                                .setMessage("Время вышло!\nПравильный ответ: $inputString")
                                 .setCancelable(false)
                                 .setPositiveButton("OK") { _, _ ->
                                     findNavController().navigateUp()
@@ -98,7 +102,7 @@ class GameFragment : Fragment(), LettersAdapter.RecyclerViewEvent {
         if (String(arrayOfAnswers) == inputString) {
             AlertDialog.Builder(context)
                 .setTitle("Поздравляем!")
-                .setMessage("Вы угадали слово!")
+                .setMessage("Вы угадали слово $inputString!")
                 .setCancelable(false)
                 .setPositiveButton("OK") { _, _ ->
                     findNavController().navigateUp()
@@ -115,7 +119,7 @@ class GameFragment : Fragment(), LettersAdapter.RecyclerViewEvent {
         if (trying == 6) {
             AlertDialog.Builder(context)
                 .setTitle("Вы проиграли!")
-                .setMessage("Вы не угадали слово!")
+                .setMessage("Вы не угадали слово! \n Правильный ответ: $inputString")
                 .setCancelable(false)
                 .setPositiveButton("OK") { _, _ ->
                     findNavController().navigateUp()
