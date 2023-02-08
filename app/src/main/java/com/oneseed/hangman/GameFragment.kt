@@ -19,14 +19,15 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+const val TIMER_COUNT = 30
 
 class GameFragment : Fragment(), LettersAdapter.RecyclerViewEvent {
     private val lettersList = ArrayList<LettersItem>()
     private val rcAdapter = LettersAdapter(lettersList, this)
     private lateinit var inputString: String
     private var trying = 0
-    private var timerCount = 30
-    private var hintCount = 30
+    private var hintCount = 0
+    private var timerCount = TIMER_COUNT
     private lateinit var sharedPref: SharedPreferences
     private var sharedScore = 0
     private var score = 1000
@@ -66,23 +67,22 @@ class GameFragment : Fragment(), LettersAdapter.RecyclerViewEvent {
         if (requireArguments().getBoolean("timer")) {
             score = 3000
             binding.timer.visibility = View.VISIBLE
+            binding.timer.text = timerCount.toString()
             lifecycleScope.launch {
                 withContext(Dispatchers.IO) {
                     while (timerCount > 0) {
-                        binding.timer.text = timerCount.toString()
                         Thread.sleep(1000)
                         timerCount--
-                        if (timerCount == 0) {
-                            binding.timer.text = timerCount.toString()
-                            withContext(Dispatchers.Main) {
+                        withContext(Dispatchers.Main) {
+                            if (timerCount > 0) binding.timer.text = timerCount.toString()
+                            if (timerCount == 0) {
                                 AlertDialog.Builder(context).setTitle("Вы проиграли!")
                                     .setMessage("Время вышло!\nПравильный ответ: \"${inputString.lowercase()}\".")
                                     .setCancelable(false).setPositiveButton("OK") { _, _ ->
                                         findNavController().navigateUp()
                                     }.show()
-
+                                timerCount = -1
                             }
-                            timerCount = -1
                         }
                     }
                 }
@@ -91,7 +91,7 @@ class GameFragment : Fragment(), LettersAdapter.RecyclerViewEvent {
 
 
 
-        binding.hintImage.setOnClickListener{
+        binding.hintImage.setOnClickListener {
             if (hintCount > 0) {
                 hintCount--
                 binding.hintCount.text = hintCount.toString()
@@ -153,7 +153,8 @@ class GameFragment : Fragment(), LettersAdapter.RecyclerViewEvent {
                     findNavController().navigateUp()
                 }.show()
             trying++
-            sharedPref.edit().putInt(getString(R.string.scoreShared), sharedScore + (score / trying)).apply()
+            sharedPref.edit()
+                .putInt(getString(R.string.scoreShared), sharedScore + (score / trying)).apply()
             sharedPref.edit().putInt(getString(R.string.hintShared), ++hintCount).apply()
 
 
