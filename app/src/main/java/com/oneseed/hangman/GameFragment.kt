@@ -103,6 +103,7 @@ class GameFragment : Fragment(), LettersAdapter.RecyclerViewEvent {
                     randomLetter = inputString.random()
                 }
                 isRightAnswer(randomLetter)
+                rcAdapter.disableLetter(randomLetter)
 
 
             }

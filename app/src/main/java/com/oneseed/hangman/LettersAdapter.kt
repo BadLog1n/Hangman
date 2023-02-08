@@ -57,6 +57,15 @@ class LettersAdapter(
         return lettersList.size
     }
 
+    fun disableLetter(randomLetter: Char) {
+        for (i in 0 until  lettersList.size - 1) {
+            if (lettersList[i].letter[0] == randomLetter) {
+                lettersList.remove(lettersList[i])
+                notifyItemRemoved(i)
+            }
+        }
+    }
+
     interface RecyclerViewEvent {
         fun onItemClicked(letter: Char)
     }
