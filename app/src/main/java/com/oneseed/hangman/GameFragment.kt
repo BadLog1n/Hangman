@@ -134,6 +134,7 @@ class GameFragment : Fragment(), LettersAdapter.RecyclerViewEvent {
         } else {
             isWrongAnswer()
         }
+        rcAdapter.disableLetter(letter)
 
     }
 
