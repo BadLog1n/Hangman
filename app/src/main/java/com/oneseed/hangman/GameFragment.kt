@@ -26,6 +26,7 @@ class GameFragment : Fragment(), LettersAdapter.RecyclerViewEvent {
     private lateinit var inputString: String
     private var trying = 0
     private var timerCount = 30
+    private var hintCount = 30
     private lateinit var sharedPref: SharedPreferences
     private var sharedScore = 0
     private var score = 1000
@@ -42,7 +43,9 @@ class GameFragment : Fragment(), LettersAdapter.RecyclerViewEvent {
         sharedPref =
             activity?.getSharedPreferences(getString(R.string.sharedPref), Context.MODE_PRIVATE)!!
         sharedPref.getInt(getString(R.string.scoreShared), 0).also { sharedScore = it }
+        hintCount = sharedPref.getInt(getString(R.string.hintShared), 0)
         sharedPref.edit().putInt(getString(R.string.scoreShared), 0).apply()
+        binding.hintCount.text = hintCount.toString()
 
         binding.inputCode.isEnabled = false
         val imageRc: RecyclerView = view.findViewById(R.id.abcButtonsRecycler)
@@ -87,6 +90,22 @@ class GameFragment : Fragment(), LettersAdapter.RecyclerViewEvent {
         }
 
 
+
+        binding.hintImage.setOnClickListener{
+            if (hintCount > 0) {
+                hintCount--
+                binding.hintCount.text = hintCount.toString()
+                sharedPref.edit().putInt(getString(R.string.hintShared), hintCount).apply()
+            }
+        }
+
+
+
+
+
+
+
+
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             AlertDialog.Builder(context).setTitle("Вы уверены, что хотите выйти из игры?")
                 .setMessage("Игра будет считаться проигранной!").setPositiveButton("Да") { _, _ ->
@@ -124,6 +143,7 @@ class GameFragment : Fragment(), LettersAdapter.RecyclerViewEvent {
                 }.show()
             trying++
             sharedPref.edit().putInt(getString(R.string.scoreShared), score / trying).apply()
+            sharedPref.edit().putInt(getString(R.string.hintShared), ++hintCount).apply()
 
 
             timerCount = -1

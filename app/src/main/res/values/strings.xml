@@ -9,6 +9,7 @@
     <string name="sharedPref">sharedPref</string>
     <string name="scoreShared">scoreShared</string>
     <string name="recordShared">topScoreShared</string>
+    <string name="hintShared">hintShared</string>
 
 
 
