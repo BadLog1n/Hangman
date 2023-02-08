@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -19,7 +18,6 @@ import com.oneseed.hangman.databinding.FragmentGameBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.concurrent.Executors
 
 
 class GameFragment : Fragment(), LettersAdapter.RecyclerViewEvent {
@@ -29,21 +27,22 @@ class GameFragment : Fragment(), LettersAdapter.RecyclerViewEvent {
     private var trying = 0
     private var timerCount = 30
     private lateinit var sharedPref: SharedPreferences
+    private var sharedScore = 0
     private var score = 1000
     private lateinit var arrayOfAnswers: CharArray
     private lateinit var binding: FragmentGameBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
         binding = FragmentGameBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        sharedPref = activity?.getSharedPreferences(
-            getString(R.string.sharedPref), Context.MODE_PRIVATE
-        )!!
+        sharedPref =
+            activity?.getSharedPreferences(getString(R.string.sharedPref), Context.MODE_PRIVATE)!!
+        sharedPref.getInt(getString(R.string.scoreShared), 0).also { sharedScore = it }
+        sharedPref.edit().putInt(getString(R.string.scoreShared), 0).apply()
 
         binding.inputCode.isEnabled = false
         val imageRc: RecyclerView = view.findViewById(R.id.abcButtonsRecycler)
@@ -57,9 +56,7 @@ class GameFragment : Fragment(), LettersAdapter.RecyclerViewEvent {
 
         inputString = (getString(R.string.words)).split(" ").random().uppercase()
         binding.inputCode.lengthOfCode = inputString.length
-
         imageRc.layoutManager = GridLayoutManager(context, 5)
-
         val localArray = CharArray(inputString.length) { ' ' }
         arrayOfAnswers = localArray
 
@@ -80,8 +77,6 @@ class GameFragment : Fragment(), LettersAdapter.RecyclerViewEvent {
                                     .setCancelable(false).setPositiveButton("OK") { _, _ ->
                                         findNavController().navigateUp()
                                     }.show()
-                                sharedPref.edit().putInt(getString(R.string.scoreShared), 0)
-                                    .apply()
 
                             }
                             timerCount = -1
@@ -94,10 +89,7 @@ class GameFragment : Fragment(), LettersAdapter.RecyclerViewEvent {
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             AlertDialog.Builder(context).setTitle("Вы уверены, что хотите выйти из игры?")
-                .setMessage("Игра будет считаться проигранной!")
-                .setPositiveButton("Да") { _, _ ->
-                    sharedPref.edit().putInt(getString(R.string.scoreShared), 0)
-                        .apply()
+                .setMessage("Игра будет считаться проигранной!").setPositiveButton("Да") { _, _ ->
                     findNavController().navigateUp()
                 }.setNegativeButton("Нет") { _, _ -> }.show()
         }
@@ -148,8 +140,6 @@ class GameFragment : Fragment(), LettersAdapter.RecyclerViewEvent {
                 .setCancelable(false).setPositiveButton("OK") { _, _ ->
                     findNavController().navigateUp()
                 }.show()
-            sharedPref.edit().putInt(getString(R.string.scoreShared), 0).apply()
-
             timerCount = -1
 
         }
@@ -158,8 +148,6 @@ class GameFragment : Fragment(), LettersAdapter.RecyclerViewEvent {
         binding.imageView.setImageResource(resID)
 
     }
-
-
 
 
 }
