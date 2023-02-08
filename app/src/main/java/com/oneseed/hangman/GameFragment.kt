@@ -153,7 +153,7 @@ class GameFragment : Fragment(), LettersAdapter.RecyclerViewEvent {
                     findNavController().navigateUp()
                 }.show()
             trying++
-            sharedPref.edit().putInt(getString(R.string.scoreShared), score / trying).apply()
+            sharedPref.edit().putInt(getString(R.string.scoreShared), sharedScore + (score / trying)).apply()
             sharedPref.edit().putInt(getString(R.string.hintShared), ++hintCount).apply()
 
 
