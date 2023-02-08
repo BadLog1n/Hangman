@@ -54,7 +54,7 @@ class GameFragment : Fragment(), LettersAdapter.RecyclerViewEvent {
         }
         rcAdapter.notifyItemChanged(rcAdapter.itemCount)
 
-        inputString = (getString(R.string.words)).split(" ").random().uppercase()
+        inputString = (getString(R.string.words)).split(" ").random().replace("ё", "е").uppercase()
         binding.inputCode.lengthOfCode = inputString.length
         imageRc.layoutManager = GridLayoutManager(context, 5)
         val localArray = CharArray(inputString.length) { ' ' }
