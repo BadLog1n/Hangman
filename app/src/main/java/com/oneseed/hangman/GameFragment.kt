@@ -166,10 +166,11 @@ class GameFragment : Fragment(), LettersAdapter.RecyclerViewEvent {
             timerCount = -1
 
         }
-        val image = "@drawable/hangman_$trying"
-        val resID = resources.getIdentifier(image, "drawable", activity?.packageName)
-        binding.imageView.setImageResource(resID)
-
+        if (trying < 7) {
+            val image = "@drawable/hangman_$trying"
+            val resID = resources.getIdentifier(image, "drawable", activity?.packageName)
+            binding.imageView.setImageResource(resID)
+        }
     }
 
 
