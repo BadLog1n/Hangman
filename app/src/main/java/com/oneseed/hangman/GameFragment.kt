@@ -96,6 +96,15 @@ class GameFragment : Fragment(), LettersAdapter.RecyclerViewEvent {
                 hintCount--
                 binding.hintCount.text = hintCount.toString()
                 sharedPref.edit().putInt(getString(R.string.hintShared), hintCount).apply()
+
+                //random letter from inputString and not in arrayOfAnswers
+                var randomLetter = inputString.random()
+                while (arrayOfAnswers.contains(randomLetter)) {
+                    randomLetter = inputString.random()
+                }
+                isRightAnswer(randomLetter)
+
+
             }
         }
 
