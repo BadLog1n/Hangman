@@ -24,7 +24,7 @@ const val TIMER_COUNT = 30
 class GameFragment : Fragment(), LettersAdapter.RecyclerViewEvent {
     private val lettersList = ArrayList<LettersItem>()
     private val rcAdapter = LettersAdapter(lettersList, this)
-    private lateinit var inputString: String
+    private lateinit var wordAsked: String
     private var trying = 0
     private var hintCount = 0
     private var timerCount = TIMER_COUNT
@@ -57,11 +57,10 @@ class GameFragment : Fragment(), LettersAdapter.RecyclerViewEvent {
             )
         }
         rcAdapter.notifyItemChanged(rcAdapter.itemCount)
-
-        inputString = (getString(R.string.words)).split(" ").random().replace("ё", "е").uppercase()
-        binding.inputCode.lengthOfCode = inputString.length
+        wordAsked = requireArguments().getString("wordAsked")!!
+        binding.inputCode.lengthOfCode = wordAsked.length
         imageRc.layoutManager = GridLayoutManager(context, 5)
-        val localArray = CharArray(inputString.length) { ' ' }
+        val localArray = CharArray(wordAsked.length) { ' ' }
         arrayOfAnswers = localArray
 
         if (requireArguments().getBoolean("timer")) {
@@ -77,7 +76,7 @@ class GameFragment : Fragment(), LettersAdapter.RecyclerViewEvent {
                             if (timerCount > 0) binding.timer.text = timerCount.toString()
                             if (timerCount == 0) {
                                 AlertDialog.Builder(context).setTitle("Вы проиграли!")
-                                    .setMessage("Время вышло!\nПравильный ответ: \"${inputString.lowercase()}\".")
+                                    .setMessage("Время вышло!\nПравильный ответ: \"${wordAsked.lowercase()}\".")
                                     .setCancelable(false).setPositiveButton("OK") { _, _ ->
                                         findNavController().navigateUp()
                                     }.show()
@@ -96,9 +95,9 @@ class GameFragment : Fragment(), LettersAdapter.RecyclerViewEvent {
                 hintCount--
                 binding.hintCount.text = hintCount.toString()
                 sharedPref.edit().putInt(getString(R.string.hintShared), hintCount).apply()
-                var randomLetter = inputString.random()
+                var randomLetter = wordAsked.random()
                 while (arrayOfAnswers.contains(randomLetter)) {
-                    randomLetter = inputString.random()
+                    randomLetter = wordAsked.random()
                 }
                 isRightAnswer(randomLetter)
                 rcAdapter.disableLetter(randomLetter)
@@ -121,7 +120,7 @@ class GameFragment : Fragment(), LettersAdapter.RecyclerViewEvent {
 
 
     override fun onItemClicked(letter: Char) {
-        if (inputString.contains(letter)) {
+        if (wordAsked.contains(letter)) {
             isRightAnswer(letter)
         } else {
             isWrongAnswer()
@@ -132,15 +131,15 @@ class GameFragment : Fragment(), LettersAdapter.RecyclerViewEvent {
 
 
     private fun isRightAnswer(letter: Char) {
-        for (i in inputString.indices) {
-            if (inputString[i] == letter) {
+        for (i in wordAsked.indices) {
+            if (wordAsked[i] == letter) {
                 arrayOfAnswers[i] = letter
             }
         }
         binding.inputCode.code = String(arrayOfAnswers)
-        if (String(arrayOfAnswers) == inputString) {
+        if (String(arrayOfAnswers) == wordAsked) {
             AlertDialog.Builder(context).setTitle("Поздравляем!")
-                .setMessage("Вы угадали слово \"${inputString.lowercase()}\"!").setCancelable(false)
+                .setMessage("Вы угадали слово \"${wordAsked.lowercase()}\"!").setCancelable(false)
                 .setPositiveButton("OK") { _, _ ->
                     findNavController().navigateUp()
                 }.show()
@@ -160,7 +159,7 @@ class GameFragment : Fragment(), LettersAdapter.RecyclerViewEvent {
         trying++
         if (trying == 6) {
             AlertDialog.Builder(context).setTitle("Вы проиграли!")
-                .setMessage("Вы не угадали слово!\nПравильный ответ: \"${inputString.lowercase()}\".")
+                .setMessage("Вы не угадали слово!\nПравильный ответ: \"${wordAsked.lowercase()}\".")
                 .setCancelable(false).setPositiveButton("OK") { _, _ ->
                     findNavController().navigateUp()
                 }.show()

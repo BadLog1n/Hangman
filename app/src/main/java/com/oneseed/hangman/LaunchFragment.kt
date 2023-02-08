@@ -38,6 +38,10 @@ class LaunchFragment : Fragment() {
         binding.playButton.setOnClickListener {
             val bundle = Bundle()
             bundle.putBoolean("timer", binding.timerSwitch.isChecked)
+            bundle.putString(
+                "wordAsked",
+                (getString(R.string.words)).split(" ").random().replace("ё", "е").uppercase()
+            )
             view.findNavController().navigate(R.id.gameFragment, bundle)
         }
         binding.timerSwitch.setOnCheckedChangeListener { _, isChecked ->
