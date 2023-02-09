@@ -8,83 +8,85 @@
     android:background="@color/black">
 
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingTop="20dp">
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="20dp">
+
+                <ImageView
+                    android:id="@+id/hintImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:paddingStart="10dp"
+                    android:src="@drawable/baseline_help_outline_24" />
+
+                <TextView
+                    android:id="@+id/hintCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/timer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="20dp"
+                    android:layout_weight="15"
+                    android:gravity="end"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:visibility="visible" />
+            </LinearLayout>
 
             <ImageView
-                android:id="@+id/hintImage"
-                android:layout_width="wrap_content"
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:paddingStart="10dp"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/baseline_help_outline_24" />
-            <TextView
-                android:id="@+id/hintCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:gravity="start"
-                android:layout_weight="1"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                android:visibility="visible" />
+                android:paddingTop="50dp"
+                app:srcCompat="@drawable/hangman_0" />
 
-            <TextView
-                android:id="@+id/timer"
+            <com.raycoarana.codeinputview.CodeInputView
+                android:id="@+id/inputCode"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="15"
-                android:gravity="end"
-                android:layout_marginEnd="20dp"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                android:visibility="visible" />
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                app:animate_on_complete="false"
+                app:code_text_color="#b12eff"
+                app:code_text_size="17sp"
+                app:error_color="#77ce9d"
+                app:input_type="text"
+                app:length_of_code="4"
+                app:underline_color="#457ad1"
+                app:underline_selected_color="#9e1ace"
+                app:underline_width="31dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/abcButtonsRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="55dp"
+                android:layout_weight="1"
+                tools:listitem="@layout/russian_abc_button" />
         </LinearLayout>
+    </ScrollView>
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="50dp"
-            app:srcCompat="@drawable/hangman_0" />
-
-        <com.raycoarana.codeinputview.CodeInputView
-            android:id="@+id/inputCode"
-            android:layout_marginTop="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:underline_color="#457ad1"
-            app:underline_width="31dp"
-            app:underline_selected_color="#9e1ace"
-            app:code_text_color="#b12eff"
-            app:error_color="#77ce9d"
-            app:input_type="text"
-            app:length_of_code="4"
-            app:code_text_size="17sp"
-            android:layout_gravity="center"
-            app:animate_on_complete="false"
-            />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/abcButtonsRecycler"
-            android:layout_margin="55dp"
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            tools:listitem="@layout/russian_abc_button"/>
-    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
