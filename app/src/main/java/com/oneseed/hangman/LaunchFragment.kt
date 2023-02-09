@@ -1,7 +1,9 @@
 package com.oneseed.hangman
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +15,8 @@ import com.oneseed.hangman.databinding.FragmentLaunchBinding
 
 class LaunchFragment : Fragment() {
     private lateinit var binding: FragmentLaunchBinding
+    private val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/badlog1n"))
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -33,6 +37,10 @@ class LaunchFragment : Fragment() {
             binding.recordText.text = score.toString()
         } else {
             binding.recordText.text = record.toString()
+        }
+
+        binding.authorText.setOnClickListener{
+            startActivity(intent)
         }
 
         binding.playButton.setOnClickListener {

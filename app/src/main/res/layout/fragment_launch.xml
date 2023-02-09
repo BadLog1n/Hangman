@@ -17,6 +17,17 @@
             android:orientation="vertical">
 
 
+            <TextView
+                android:id="@+id/authorText"
+                android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:textSize="11sp"
+                android:layout_weight="1"
+                android:text="@string/authorText" />
+
             <ImageButton
                 android:id="@+id/playButton"
                 android:layout_width="wrap_content"
@@ -25,7 +36,7 @@
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/descPlayButton"
-                android:paddingTop="200dp"
+                android:layout_marginTop="200dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/play_button_svgrepo_com" />
 
@@ -70,7 +81,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="10"
-                android:layout_marginTop="150dp"
+                android:layout_marginTop="100dp"
                 android:orientation="horizontal"
 
                 android:paddingBottom="10dp">
